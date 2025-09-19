@@ -1,5 +1,4 @@
 class AlienFlora:
-    """Base class for alien flora"""
     def __init__(self, name: str, rarity: int):
         self.name = name
         self.rarity = rarity
