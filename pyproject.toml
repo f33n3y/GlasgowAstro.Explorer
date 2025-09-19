@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "glasgowastro-biologist"
+version = "0.1.0"
+description = ""
+authors = ["glasgowastro"]
+readme = "README.md"
+packages = [{include = "glasgowastro"}]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.13"
+smolagents = "^1.21.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
