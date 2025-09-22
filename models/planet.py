@@ -36,3 +36,6 @@ class Planet:
                 row_str += f"{content:^{cell_width}}|"
             print(row_str)
         print(horizontal_line)
+
+    def is_within_grid(self, x: int, y: int) -> bool:
+        return 0 <= x < len(self.grid) and 0 <= y < len(self.grid[0])
