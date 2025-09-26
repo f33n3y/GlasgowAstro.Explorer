@@ -4,6 +4,7 @@ from models.alien_flora import AlienFlora
 from models.explorer import Explorer
 from models.planet import Planet
 from tools.move_explorer_tool import MoveExplorerTool
+from tools.scan_area_tool import ScanAreaTool
 
 planet = Planet("Glasgovaar")
 flora_list = [
@@ -20,6 +21,7 @@ explorer = Explorer("glasgowastro", planet)
 planet.print_grid()
 
 move_explorer_tool = MoveExplorerTool(explorer)
+scan_area_tool = ScanAreaTool(explorer, planet)
 
 model = LiteLLMModel(
     model_id="ollama_chat/qwen2:7b",
@@ -29,12 +31,13 @@ model = LiteLLMModel(
 
 exploration_prompt = """
 You are an explorer named "glasgowastro" who has landed on an alien planet. 
-Your goal is to move around the planet.
+Your goal is to move around the planet and discover alien flora and fauna.
 - You start at position (0,0).
-- After each move, reflect on your position and describe your journey as if you are a real explorer.
+- After each move, scan the area to check for flora and fauna, reflect on your position and what you have found.
+- Describe your journey as if you are a real explorer.
 - Continue moving until you have explored several positions.
 """
 
-agent = CodeAgent(tools=[move_explorer_tool], model=model, verbosity_level=2, additional_authorized_imports=["random"])
+agent = CodeAgent(tools=[move_explorer_tool, scan_area_tool], model=model, verbosity_level=2, additional_authorized_imports=["random"])
 result = agent.run(exploration_prompt)
 print(result)

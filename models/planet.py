@@ -11,12 +11,12 @@ class Planet:
     @staticmethod
     def _create_grid() -> list[list[Optional['AlienFlora']]]:
         """Initialize an empty grid of None values"""
-        return [[None for _ in range(10)] for _ in range(10)]
+        return [[None for _ in range(5)] for _ in range(5)]
 
     def place_flora(self, flora: AlienFlora):
         """Place an AlienFlora on the grid"""
-        rand_x = random.randint(0, 9)
-        rand_y = random.randint(0, 9)
+        rand_x = random.randint(0, 4)
+        rand_y = random.randint(0, 4)
         self.grid[rand_x][rand_y] = flora
         print(f"Placed {flora.name} at position ({rand_x}, {rand_y})")
 
@@ -39,3 +39,9 @@ class Planet:
 
     def is_within_grid(self, x: int, y: int) -> bool:
         return 0 <= x < len(self.grid) and 0 <= y < len(self.grid[0])
+
+    def check_grid(self, x: int, y: int) -> Optional[AlienFlora]:
+        if not self.is_within_grid(x, y):
+            raise ValueError(f"Coordinates ({x}, {y}) are outside the grid.")
+
+        return self.grid[x][y]

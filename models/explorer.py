@@ -19,4 +19,7 @@ class Explorer:
         print(f"Explorer cannot move outside planet bounds. Explorer remains at {self.x_pos},{self.y_pos}")
         return False
 
+    def get_position(self) -> tuple[int, int]:
+        return self.x_pos, self.y_pos
+
 
