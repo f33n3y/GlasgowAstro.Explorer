@@ -8,9 +8,9 @@ class MoveExplorerTool(Tool):
 
     name = "move_explorer_tool"
     description = (
-        "This tool allows you to move an explorer's position on a planet grid by providing an offset for the explorer's x and y coordinates. "
-        "For example, dx=1, dy=0 moves you one step to the right. "
-        "The tool will return a boolean indicating whether the move was successful."
+        "Use this tool to move the explorer to a new position on the planet's grid. "
+        "Provide horizontal (dx) and vertical (dy) offsets to indicate the movement direction and distance — for example, dx=1, dy=0 moves one step to the right. "
+        "The tool updates the explorer's coordinates and returns a message indicating whether the move was successful or if it failed due to reaching the planet's boundary. "
     )
 
     inputs = {
@@ -30,4 +30,8 @@ class MoveExplorerTool(Tool):
         success = self.explorer.move(dx, dy)
         if success:
             return f"Moved to ({self.explorer.x_pos}, {self.explorer.y_pos})."
-        return "Move failed: out of bounds."
+        return (
+            f"Move failed: Explorer cannot move outside the planet bounds. "
+            f"Explorer remains at ({self.explorer.x_pos}, {self.explorer.y_pos}). "
+            f"Try a different direction."
+        )
