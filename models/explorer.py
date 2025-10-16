@@ -21,5 +21,3 @@ class Explorer:
 
     def get_position(self) -> tuple[int, int]:
         return self.x_pos, self.y_pos
-
-

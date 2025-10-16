@@ -1,27 +1,44 @@
 from smolagents import LiteLLMModel, CodeAgent
 
+from models.alien_fauna import AlienFauna
 from models.alien_flora import AlienFlora
 from models.explorer import Explorer
+from models.logbook import Logbook
 from models.planet import Planet
+from tools.log_discovery_tool import LogDiscoveryTool
 from tools.move_explorer_tool import MoveExplorerTool
 from tools.scan_area_tool import ScanAreaTool
+from tools.summarise_discoveries_tool import SummariseDiscoveriesTool
 
-planet = Planet("Glasgovaar")
+planet = Planet(planet_name="Glasgovaar", grid_size=5)
 flora_list = [
     AlienFlora("Zoraphoty", rarity=3),
     AlienFlora("Weeflumpsa", rarity=5),
     AlienFlora("Uisgebeatha", rarity=8)
 ]
 
+fauna_list = [
+    AlienFauna("Llamatank", rarity=4),
+    AlienFauna("Spacedoggo", rarity=3),
+    AlienFauna("Otteroo", rarity=10),
+]
+
 for flora in flora_list:
-    planet.place_flora(flora)
+    planet.place_life(flora)
     print(flora.describe())
 
+for fauna in fauna_list:
+    planet.place_life(fauna)
+    print(fauna.describe())
+
 explorer = Explorer("glasgowastro", planet)
+logbook = Logbook()
 planet.print_grid()
 
 move_explorer_tool = MoveExplorerTool(explorer)
 scan_area_tool = ScanAreaTool(explorer, planet)
+log_discovery_tool = LogDiscoveryTool(logbook)
+summarise_discoveries_tool = SummariseDiscoveriesTool(logbook)
 
 model = LiteLLMModel(
     model_id="ollama_chat/qwen2:7b",
@@ -30,14 +47,19 @@ model = LiteLLMModel(
 )
 
 exploration_prompt = """
-You are an explorer named "glasgowastro" who has landed on an alien planet. 
-Your goal is to move around the planet and discover alien flora and fauna.
-- You start at position (0,0).
-- After each move, scan the area to check for flora and fauna, reflect on your position and what you have found.
-- Describe your journey as if you are a real explorer.
-- Continue moving until you have explored several positions.
+You are an explorer named "glasgowastro" on an alien planet (a 5x5 grid).
+Your GOAL is to explore the entire planet safely and log all the alien life you discover.
+
+IMPORTANT RULES:
+- You MUST only use the tools available to achieve your goal.
+- Before starting your exploration, you MUST plan your approach so that you can cover the whole of the planet.   
+- You MUST NOT simulate, invent or guess any discoveries.
+- You MUST ONLY log discoveries returned by the scan area tool.
+- You MUST end your exploration when you have covered all possible positions on the planet.
+- Always wrap your executable code inside <code> and </code> tags and Do NOT use markdown-style triple backticks.
 """
 
-agent = CodeAgent(tools=[move_explorer_tool, scan_area_tool], model=model, verbosity_level=2, additional_authorized_imports=["random"])
+agent = CodeAgent(tools=[move_explorer_tool, scan_area_tool, log_discovery_tool, summarise_discoveries_tool],
+                  model=model, verbosity_level=2, additional_authorized_imports=["random"], max_steps=50)
 result = agent.run(exploration_prompt)
 print(result)
