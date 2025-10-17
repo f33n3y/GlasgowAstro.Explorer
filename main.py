@@ -10,7 +10,7 @@ from tools.move_explorer_tool import MoveExplorerTool
 from tools.scan_area_tool import ScanAreaTool
 from tools.summarise_discoveries_tool import SummariseDiscoveriesTool
 
-planet = Planet(planet_name="Glasgovaar", grid_size=5)
+planet = Planet(planet_name="Glasgovaar", grid_size=3)
 flora_list = [
     AlienFlora("Zoraphoty", rarity=3),
     AlienFlora("Weeflumpsa", rarity=5),
@@ -41,23 +41,26 @@ log_discovery_tool = LogDiscoveryTool(logbook)
 summarise_discoveries_tool = SummariseDiscoveriesTool(logbook)
 
 model = LiteLLMModel(
-    model_id="ollama_chat/deepseek-r1:7b",
+    model_id="ollama_chat/qwen2:7b",
     api_base="http://127.0.0.1:11434",
     num_ctx=8192,
 )
 
 exploration_prompt = """
-You are an explorer named "glasgowastro" on an alien planet (a 5x5 grid).
-Your GOAL is to explore and log any alien life you discover.
+You are an explorer named "glasgowastro" on an alien planet.
+Your goal is to move, scan for alien life, and log any discoveries you make.
 
-IMPORTANT RULES:
-- You MUST only use the tools available to achieve your goal.
-- Before starting your exploration, you MUST plan your approach so that you can cover at least 7 locations.  
-- You MUST NOT simulate, invent or guess any discoveries.
-- After each move, you MUST scan the area and log any alien life that you find.
-- You MUST ONLY log discoveries returned by the scan area tool.
-- Always wrap your executable code inside <code> and </code> tags and Do NOT use markdown-style triple backticks.
+RULES:
+- Start by scanning your initial position before moving.
+- After that, always move before scanning. Never scan twice in a row without moving.
+- After scanning, log any discoveries.
+- Stop exploring once you have logged at least 2 unique alien lifeforms.
+- Only use the tools provided: move_explorer_tool, scan_area_tool, log_discovery_tool, summarise_discoveries_tool.
+- Never simulate, invent or guess your discoveries.
 """
+
+
+
 
 agent = CodeAgent(tools=[move_explorer_tool, scan_area_tool, log_discovery_tool, summarise_discoveries_tool],
                   model=model, verbosity_level=2, additional_authorized_imports=["random"], max_steps=50)

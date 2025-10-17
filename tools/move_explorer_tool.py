@@ -9,8 +9,8 @@ class MoveExplorerTool(Tool):
     name = "move_explorer_tool"
     description = (
         "Use this tool to move the explorer to a new position on the planet. "
-        "Provide horizontal (dx) and vertical (dy) offsets to indicate the movement direction and distance — for example, dx=1, dy=0 moves one step to the right. "
-        "The tool updates the explorer's coordinates and returns a message indicating whether the move was successful or if it failed due to reaching the planet's boundary. "
+        "Provide this tool with horizontal (dx) and vertical (dy) offsets to indicate the movement direction and distance — for example, dx=1, dy=0 moves one step to the right. "
+        "This tool updates the explorer's coordinates and returns a message indicating whether the move was successful or if it failed due to reaching the planet's boundary. "
     )
 
     inputs = {

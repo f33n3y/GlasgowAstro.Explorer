@@ -14,9 +14,9 @@ class ScanAreaTool(Tool):
 
     name = "scan_area_tool"
     description = (
-        "Use this tool to scan the explorer's current location on the planet grid for alien life forms. "
-        "It detects whether any alien flora or fauna are present at the explorer's current position. "
-        "The tool returns a string describing what was found, including the lifeform's type, name, and rarity. "
+        "Use this tool to scan the current location on the planet grid. "
+        "This tool will detect whether any alien flora or fauna are present at the explorer's current position. "
+        "This tool returns a string describing what was found, including the lifeform's type, name, and rarity. "
         "If nothing is discovered, it will clearly state that no alien life was detected."
     )
 
