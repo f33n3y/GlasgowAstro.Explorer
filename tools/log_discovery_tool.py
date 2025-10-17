@@ -11,9 +11,7 @@ class LogDiscoveryTool(Tool):
 
     name = "log_discovery_tool"
     description = (
-        "Use this tool to keep track of all unique alien life discovered by the explorer. "
-        "You can log a discovery with log_discovery(name, type_of_life, x, y), "
-        "or get a summary of all discoveries with summarize_discoveries()."
+        "Use this tool to log alien life that has been discovered by an area scan. "
     )
     inputs = {
         "name": {"type": "string", "description": "Name of the alien life."},

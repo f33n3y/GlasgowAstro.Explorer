@@ -8,7 +8,7 @@ class SummariseDiscoveriesTool(Tool):
         self.logbook = logbook
 
     name = "summarise_discoveries"
-    description = "Use this tool to return a summary of all discoveries in the logbook."
+    description = "Use this tool to obtain a summary of all alien life discovered during planet exploration."
     inputs = {}
     output_type = "string"
 

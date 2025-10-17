@@ -15,8 +15,8 @@ class ScanAreaTool(Tool):
     name = "scan_area_tool"
     description = (
         "Use this tool to scan the explorer's current location on the planet grid for alien life forms. "
-        "It detects whether any alien flora or fauna are present at the explorer's coordinates. "
-        "The tool returns a human-readable string describing what was found, including the lifeform's type, name, and rarity. "
+        "It detects whether any alien flora or fauna are present at the explorer's current position. "
+        "The tool returns a string describing what was found, including the lifeform's type, name, and rarity. "
         "If nothing is discovered, it will clearly state that no alien life was detected."
     )
 
@@ -29,10 +29,10 @@ class ScanAreaTool(Tool):
         alien_discovery = self.planet.check_grid(x, y)
 
         if alien_discovery is None:
-            return f"No alien life detected at position ({x}, {y})."
+            return f"No alien life was detected at position ({x}, {y})."
 
         return (
-            f"Discovery at ({x}, {y}): "
+            f"Alien discovery at ({x}, {y}): "
             f"Type={alien_discovery.__class__.__name__}, "
             f"Name={alien_discovery.name}, "
             f"Rarity={alien_discovery.rarity}"
