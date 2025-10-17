@@ -41,21 +41,21 @@ log_discovery_tool = LogDiscoveryTool(logbook)
 summarise_discoveries_tool = SummariseDiscoveriesTool(logbook)
 
 model = LiteLLMModel(
-    model_id="ollama_chat/qwen2:7b",
+    model_id="ollama_chat/deepseek-r1:7b",
     api_base="http://127.0.0.1:11434",
     num_ctx=8192,
 )
 
 exploration_prompt = """
 You are an explorer named "glasgowastro" on an alien planet (a 5x5 grid).
-Your GOAL is to explore the entire planet safely and log all the alien life you discover.
+Your GOAL is to explore and log any alien life you discover.
 
 IMPORTANT RULES:
 - You MUST only use the tools available to achieve your goal.
-- Before starting your exploration, you MUST plan your approach so that you can cover the whole of the planet.   
+- Before starting your exploration, you MUST plan your approach so that you can cover at least 7 locations.  
 - You MUST NOT simulate, invent or guess any discoveries.
+- After each move, you MUST scan the area and log any alien life that you find.
 - You MUST ONLY log discoveries returned by the scan area tool.
-- You MUST end your exploration when you have covered all possible positions on the planet.
 - Always wrap your executable code inside <code> and </code> tags and Do NOT use markdown-style triple backticks.
 """
 
